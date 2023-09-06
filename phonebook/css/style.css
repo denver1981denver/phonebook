@@ -1,5 +1,5 @@
 body {
-  min-width: 420px;
+  min-width: 520px;
 }
 
 .header {
@@ -125,4 +125,12 @@ body {
   background-color: #3E5E93;
   color: #fff;
   text-align: center;
+}
+
+.edit {
+  position: absolute;
+  right: 500px;
+  border: none;
+  background-color: transparent;
+
 }

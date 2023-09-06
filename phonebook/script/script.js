@@ -150,14 +150,6 @@ const data = [
     };
   };
 
-  const createCopyright = title => {
-    const copyright = document.createElement('p');
-    copyright.insertAdjacentHTML('beforeend',
-        `Все права защищены &copy; ${title}`);
-
-    return copyright;
-  };
-
   const createFooter = () => {
     const footer = document.createElement('footer');
     footer.classList.add('footer');
@@ -166,6 +158,14 @@ const data = [
     footer.footerContainer = footerContainer;
 
     return footer;
+  };
+
+  const createCopyright = title => {
+    const copyright = document.createElement('p');
+    copyright.insertAdjacentHTML('beforeend',
+        `Все права защищены &copy; ${title}`);
+
+    return copyright;
   };
 
   const renderPhoneBook = (app, title) => {
@@ -225,7 +225,22 @@ const data = [
     phoneLink.textContent = phone;
     tr.phoneLink = phoneLink;
 
-    tdPhone.append(phoneLink);
+    const btnEdit = document.createElement('button');
+    btnEdit.classList.add('edit');
+    btnEdit.insertAdjacentHTML('afterbegin', `
+    <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 30 30" width="30px" height="30px" baseProfile="basic"><polygon fill="#ff5" 
+      points="22,1 18.5,4.5 4,19 3,24 2,28 6,27 11,26 19.5,17.5 25.5,11.5 29,8"/><polygon fill="#ff7575" 
+      points="29,8 25.5,11.5 22,8"/><polygon fill="#ff9f9f" points="22,1 18.5,4.5 22,8"/><polygon fill="#ffd72b" 
+      points="6,27 11,26 7.5,22.5"/><polygon fill="#ff5" points="3,24 4,19 7.5,22.5"/><polygon fill="#ffea3e" 
+      points="4,19 18.5,4.5 7.5,22.5"/><polygon fill="#ff8f8f" points="29,8 22,8 22,1"/><polygon fill="#ffea3e" 
+      points="7.5,22.5 3,24 6,27"/><polygon fill="#ffca1e" points="19,11 18.5,4.5 25.5,11.5"/><polygon fill="#ffca1e" 
+      points="3,24 2,28 5,26"/><polygon fill="#ffb519" points="5,26 2,28 6,27"/><polygon fill="#ffb519" 
+      points="7.5,22.5 19.5,17.5 11,26"/><polygon fill="#ffb519" points="25.5,11.5 19.5,17.5 19,11"/><polygon fill="#ffd72b" 
+      points="18.5,4.5 19,11 7.5,22.5"/><polygon fill="#ffca1e" points="19,11 19.5,17.5 7.5,22.5"/>
+    </svg>`);
+    btnEdit.setAttribute('title', 'Редактировать');
+
+    tdPhone.append(phoneLink, btnEdit);
     tr.append(tdDel, tdName, tdSurname, tdPhone);
 
     return tr;
