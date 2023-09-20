@@ -1,32 +1,32 @@
 'use strict';
 
-const data = [
-  {
-    name: 'Иван',
-    surname: 'Петров',
-    phone: '+79514545454',
-  },
-  {
-    name: 'Рагнар',
-    surname: 'Лодброк',
-    phone: '+79999999999',
-  },
-  {
-    name: 'Семён',
-    surname: 'Иванов',
-    phone: '+79800252525',
-  },
-  {
-    name: 'Мария',
-    surname: 'Попова',
-    phone: '+79876543210',
-  },
-];
-
 {
-  const addContactData = contact => {
+  // получение данных пользователя с LocalStorage
+  const getStorage = key => {
+    if (!localStorage.getItem(key)) {
+      const arr = [];
+      return arr;
+    }
+    return JSON.parse(localStorage.getItem(key));
+  };
+
+  // Запись данных в LocalStorage
+  const setStorage = (key, contact) => {
+    const data = getStorage(key);
     data.push(contact);
-    console.log(data);
+    localStorage.setItem(key, JSON.stringify(data));
+  };
+
+  // удаление данных в LocalStorage
+  const removeItem = (key, phone) => {
+    const data = getStorage(key);
+    data.map((item, i) => {
+      if (item.phone === phone) {
+        data.splice(i, 1);
+      }
+    });
+
+    localStorage.setItem(key, JSON.stringify(data));
   };
 
   const createContainer = () => {
@@ -91,16 +91,15 @@ const data = [
 
     const thead = document.createElement('thead');
     thead.insertAdjacentHTML('beforeend', `
-       <tr>
-         <th class="delete">Удалить</th>
-         <th>Имя</th>
-         <th>Фамилия</th>
-         <th>Телефон</th>
-       </tr>
-     `);
+      <tr>
+        <th class="delete">Удалить</th>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Телефон</th>
+      </tr>
+    `);
 
     const tbody = document.createElement('tbody');
-
     table.append(thead, tbody);
     table.tbody = tbody;
 
@@ -114,23 +113,23 @@ const data = [
     const form = document.createElement('form');
     form.classList.add('form');
     form.insertAdjacentHTML('beforeend', `
-       <button class="close" type="button"></button>
-       <h2 class="form-title">Добавить контакт</h2>
-       <div class="form-group">
-         <label class="form-label" for="name">Имя:</label>
-         <input class="form-input" name="name" id="name" type="text" required>
-       </div>
-       <div class="form-group">
-         <label class="form-label" for="surname"">Фамилия:</label>
-         <input class="form-input" name="surname" 
-           id="surname" type="text" required>
-       </div>
-       <div class="form-group">
-         <label class="form-label" for="phone">Телефон:</label>
-         <input class="form-input" name="phone" 
-           id="phone" type="number" required>
-       </div>
-     `);
+      <button class="close" type="button"></button>
+      <h2 class="form-title">Добавить контакт</h2>
+      <div class="form-group">
+        <label class="form-label" for="name">Имя:</label>
+        <input class="form-input" name="name" id="name" type="text" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="surname"">Фамилия:</label>
+        <input class="form-input" name="surname" 
+          id="surname" type="text" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="phone">Телефон:</label>
+        <input class="form-input" name="phone" 
+          id="phone" type="number" required>
+      </div>
+    `);
 
     const buttonGroup = createButtonsGroup([
       {
@@ -146,7 +145,6 @@ const data = [
     ]);
 
     form.append(...buttonGroup.btns);
-
     overlay.append(form);
 
     return {
@@ -229,6 +227,7 @@ const data = [
 
     const tdPhone = document.createElement('td');
     const phoneLink = document.createElement('a');
+    phoneLink.classList.add('phone');
     phoneLink.href = `tel:${phone}`;
     phoneLink.textContent = phone;
     tr.phoneLink = phoneLink;
@@ -278,7 +277,7 @@ const data = [
     };
   };
 
-  const deleteControl = (btnDel, list) => {
+  const deleteControl = (btnDel, list, title) => {
     btnDel.addEventListener('click', () => {
       document.querySelectorAll('.delete').forEach(del => {
         del.classList.toggle('is-visible');
@@ -287,8 +286,11 @@ const data = [
 
     list.addEventListener('click', e => {
       const target = e.target;
+
       if (target.closest('.del-icon')) {
+        const phone = target.closest('.contact').childNodes[3].textContent;
         target.closest('.contact').remove();
+        removeItem(title, phone);
       }
     });
   };
@@ -297,13 +299,13 @@ const data = [
     list.append(createRow(contact));
   };
 
-  const formControl = (form, list, closeModal) => {
+  const formControl = (form, list, closeModal, title) => {
     form.addEventListener('submit', e => {
       e.preventDefault();
       const formData = new FormData(e.target);
       const newContact = Object.fromEntries(formData);
       addContactPage(newContact, list);
-      addContactData(newContact);
+      setStorage(title, newContact);
       form.reset();
       closeModal();
     });
@@ -311,6 +313,7 @@ const data = [
 
   const init = (selectorApp, title) => {
     const app = document.querySelector(selectorApp);
+    const local = getStorage(title);
 
     const {
       list,
@@ -321,14 +324,15 @@ const data = [
       btnDel,
     } = renderPhoneBook(app, title);
 
-    const allRow = renderContacts(list, data);
+    const allRow = renderContacts(list, local);
     const {closeModal} = modalControl(btnAdd, formOverlay);
 
     hoverRow(allRow, logo);
-    deleteControl(btnDel, list);
-    formControl(form, list, closeModal);
+    deleteControl(btnDel, list, title);
+    formControl(form, list, closeModal, title);
   };
 
   window.phoneBookInit = init;
 }
+
 
