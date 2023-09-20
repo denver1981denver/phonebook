@@ -333,6 +333,9 @@
   };
 
   window.phoneBookInit = init;
+  window.addEventListener('storage', e => {
+    init();
+  });
 }
 
 
