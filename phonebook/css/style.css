@@ -133,3 +133,7 @@ body {
 	border: none;
 	background-color: transparent;
 }
+
+th {
+	cursor: pointer;
+}

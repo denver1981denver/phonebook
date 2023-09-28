@@ -2,23 +2,28 @@
 
 const data = [
   {
-    name: 'Иван',
-    surname: 'Петров',
-    phone: '+79514545454',
-  },
-  {
-    name: 'Рагнар',
-    surname: 'Лодброк',
-    phone: '+79999999999',
-  },
-  {
-    name: 'Семён',
-    surname: 'Иванов',
+    name: 'Владимир',
+    surname: 'Бобров',
     phone: '+79800252525',
   },
   {
-    name: 'Мария',
-    surname: 'Попова',
+    name: 'Борис',
+    surname: 'Иванов',
+    phone: '+79999999999',
+  },
+  {
+    name: 'Алексей',
+    surname: 'Яковлев',
+    phone: '+79514545454',
+  },
+  {
+    name: 'Яна',
+    surname: 'Александрова',
+    phone: '+79816544327',
+  },
+  {
+    name: 'Зоя',
+    surname: 'Дмитриева',
     phone: '+79876543210',
   },
 ];
@@ -26,7 +31,28 @@ const data = [
 {
   const addContactData = contact => {
     data.push(contact);
-    console.log(data);
+  };
+
+  // Удаление контакта в объекте
+  const removeContactData = phone => {
+    data.map((item, i) => {
+      if (item.phone === phone) {
+        data.splice(i, 1);
+      }
+    });
+  };
+
+  // функция выполняет сортировку в таблице по алфавиту
+  const getSortTable = (name) => {
+    data.sort((a, b) => {
+      if (a[name] > b[name]) {
+        return 1;
+      }
+      if (a[name] < b[name]) {
+        return -1;
+      }
+      return 0;
+    });
   };
 
   const createContainer = () => {
@@ -91,13 +117,13 @@ const data = [
 
     const thead = document.createElement('thead');
     thead.insertAdjacentHTML('beforeend', `
-       <tr>
-         <th class="delete">Удалить</th>
-         <th>Имя</th>
-         <th>Фамилия</th>
-         <th>Телефон</th>
-       </tr>
-     `);
+      <tr>
+        <th class="delete">Удалить</th>
+        <th class="first-name" title="Сортировать по имени">Имя</th>
+        <th class="surname" title="Сортировать по фамилии">Фамилия</th>
+        <th>Телефон</th>
+      </tr>
+    `);
 
     const tbody = document.createElement('tbody');
 
@@ -146,7 +172,6 @@ const data = [
     ]);
 
     form.append(...buttonGroup.btns);
-
     overlay.append(form);
 
     return {
@@ -202,6 +227,7 @@ const data = [
     app.append(header, main, footer);
 
     return {
+      thead: table.childNodes[0],
       list: table.tbody,
       logo,
       btnAdd: buttonGroup.btns[0],
@@ -269,13 +295,31 @@ const data = [
     formOverlay.addEventListener('click', e => {
       const target = e.target;
       if (target === formOverlay ||
-         target.closest('.close')) {
+        target.closest('.close')) {
         closeModal();
       }
     });
     return {
       closeModal,
     };
+  };
+
+  // функция для отлавливания клика сортировки таблицы по алфавиту
+  const sortingControl = (thead, list, logo) => {
+    thead.addEventListener('click', e => {
+      const target = e.target;
+      if (target.closest('.first-name')) {
+        getSortTable('name');
+      }
+
+      if (target.closest('.surname')) {
+        getSortTable('surname');
+      }
+
+      list.textContent = '';
+      const allRow = renderContacts(list, data);
+      hoverRow(allRow, logo);
+    });
   };
 
   const deleteControl = (btnDel, list) => {
@@ -289,6 +333,8 @@ const data = [
       const target = e.target;
       if (target.closest('.del-icon')) {
         target.closest('.contact').remove();
+        const phone = target.closest('.contact').childNodes[3].textContent;
+        removeContactData(phone);
       }
     });
   };
@@ -313,6 +359,7 @@ const data = [
     const app = document.querySelector(selectorApp);
 
     const {
+      thead,
       list,
       logo,
       btnAdd,
@@ -324,8 +371,10 @@ const data = [
     const allRow = renderContacts(list, data);
     const {closeModal} = modalControl(btnAdd, formOverlay);
 
+
     hoverRow(allRow, logo);
     deleteControl(btnDel, list);
+    sortingControl(thead, list, logo);
     formControl(form, list, closeModal);
   };
 
