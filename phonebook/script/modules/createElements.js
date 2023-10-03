@@ -162,8 +162,7 @@ const createRow = ({name: firstName, surname, phone}) => {
   return tr;
 };
 
-module.exports {
-createContainer,
+module.exports = {
 createHeader,
 createLogo,
 createMain,

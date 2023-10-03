@@ -1,5 +1,17 @@
 'use strict';
 
+const {
+createHeader,
+createLogo,
+createMain,
+createButtonsGroup,
+createTable,
+createForm,
+createFooter,
+createRow,
+} = require('./createElements');
+
+
 const renderPhoneBook = (app, title) => {
   const header = createHeader();
   const logo = createLogo(title);
@@ -20,7 +32,7 @@ const renderPhoneBook = (app, title) => {
   const table = createTable();
   const {form, overlay} = createForm();
   const footer = createFooter();
- 
+
   header.headerContainer.append(logo);
   main.mainContainer.append(buttonGroup.btnWrapper, table, overlay);
 
@@ -42,7 +54,7 @@ const renderContacts = (elem, data) => {
   return allRow;
 };
 
-module.exports {
+module.exports = {
   renderPhoneBook,
   renderContacts,
 };

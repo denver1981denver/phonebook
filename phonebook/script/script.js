@@ -4,22 +4,8 @@ const {
   hoverRow,
   modalControl,
   deleteControl,
-  addContactPage,
   formControl,
 } = require('./modules/control');
-
-
-const {
-  createContainer,
-createHeader,
-createLogo,
-createMain,
-createButtonsGroup,
-createTable,
-createForm,
-createFooter,
-createRow,
-} = require('./modules/createElements');
 
 const {
   renderPhoneBook,
@@ -27,14 +13,11 @@ const {
 } = require('./modules/render');
 
 const {
-getContactData,
-setContactData,
-addContactData,
-removeContactData,
+  getContactData,
 } = require('./modules/serviceStorage');
 
 {
-const init = (selectorApp, title) => {
+  const init = (selectorApp, title) => {
     const app = document.querySelector(selectorApp);
     const data = getContactData();
 
@@ -47,11 +30,11 @@ const init = (selectorApp, title) => {
       btnDel,
     } = renderPhoneBook(app, title);
 
-    const allRow = renderContacts(list);
+    const allRow = renderContacts(list, data);
     const {closeModal} = modalControl(btnAdd, formOverlay);
 
     hoverRow(allRow, logo);
-    deleteControl(btnDel, list, title);
+    deleteControl(btnDel, list);
     formControl(form, list, closeModal);
   };
 
@@ -60,6 +43,5 @@ const init = (selectorApp, title) => {
     init();
   });
 }
-
 
 

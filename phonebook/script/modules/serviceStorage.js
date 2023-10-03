@@ -2,26 +2,24 @@
 
 const getContactData = () => (localStorage.getItem('phonebook') ?
   JSON.parse(localStorage.getItem('phonebook')) : []);
-     
-  const setContactData = data => {
-    localStorage.setItem('phonebook', JSON.stringify(data));
-  };
+const setContactData = data => {
+  localStorage.setItem('phonebook', JSON.stringify(data));
+};
 
-  const addContactData = contact => {
-    const data = getContactData('phonebook');
-    data.push(contact);
-    setContactData(data); 
-  };
+const addContactData = contact => {
+  const data = getContactData('phonebook');
+  data.push(contact);
+  setContactData(data);
+};
 
-  const removeContactData  = phone => {
-    const data = getContactData (key);
-    const newData = data.filter(item => item.phone !== phone);
-    setContactData(newData);
-  };
+const removeContactData = phone => {
+  const data = getContactData('phonebook');
+  const newData = data.filter(item => item.phone !== phone);
+  setContactData(newData);
+};
 
-  module.exports = {
-getContactData,
-setContactData,
-addContactData,
-removeContactData,
-  }
+module.exports = {
+  getContactData,
+  addContactData,
+  removeContactData,
+};

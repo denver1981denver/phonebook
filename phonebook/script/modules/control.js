@@ -1,31 +1,15 @@
 'use strict';
 
 const {
-  createContainer,
-createHeader,
-createLogo,
-createMain,
-createButtonsGroup,
-createTable,
-createForm,
-createFooter,
-createRow,
-} = require('./modules/createElements');
+  createRow,
+} = require('./createElements');
 
 const {
-  renderPhoneBook,
-  renderContacts,
-} = require('./modules/render');
+  addContactData,
+  removeContactData,
+} = require('./serviceStorage');
 
-const {
-getContactData,
-setContactData,
-addContactData,
-removeContactData,
-} = require('./modules/serviceStorage');
-
-
- const hoverRow = (allRow, logo) => {
+const hoverRow = (allRow, logo) => {
   const text = logo.textContent;
 
   allRow.forEach(contact => {
@@ -49,7 +33,7 @@ const modalControl = (btnAdd, formOverlay) => {
   formOverlay.addEventListener('click', e => {
     const target = e.target;
     if (target === formOverlay ||
-       target.closest('.close')) {
+    target.closest('.close')) {
       closeModal();
     }
   });
@@ -58,7 +42,7 @@ const modalControl = (btnAdd, formOverlay) => {
   };
 };
 
-const deleteControl = (btnDel, list, title) => {
+const deleteControl = (btnDel, list) => {
   btnDel.addEventListener('click', () => {
     document.querySelectorAll('.delete').forEach(del => {
       del.classList.toggle('is-visible');
@@ -78,7 +62,7 @@ const addContactPage = (contact, list) => {
   list.append(createRow(contact));
 };
 
-const formControl = (form, list, closeModal, title) => {
+const formControl = (form, list, closeModal) => {
   form.addEventListener('submit', e => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -90,10 +74,9 @@ const formControl = (form, list, closeModal, title) => {
   });
 };
 
-module.exports {
-hoverRow,
-modalControl,
-deleteControl,
-addContactPage,
-formControl,
+module.exports = {
+  hoverRow,
+  modalControl,
+  deleteControl,
+  formControl,
 };
