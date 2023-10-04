@@ -1,13 +1,7 @@
-'use strict';
-
-const {
-  createRow,
-} = require('./createElements');
-
-const {
-  addContactData,
-  removeContactData,
-} = require('./serviceStorage');
+import createRow from './createElements.js';
+import addContactData from './serviceStorage.js';
+import removeContactData from './serviceStorage.js';
+// import {addContactData, removeContactData} from './serviceStorage.js';
 
 const hoverRow = (allRow, logo) => {
   const text = logo.textContent;
@@ -74,7 +68,7 @@ const formControl = (form, list, closeModal) => {
   });
 };
 
-module.exports = {
+export default {
   hoverRow,
   modalControl,
   deleteControl,

@@ -1,18 +1,13 @@
-'use strict';
+import createButtonsGroup from './createElements.js';
+import createFooter from './createElements.js';
+import createForm from './createElements.js';
+import createHeader from './createElements.js';
+import createLogo from './createElements.js';
+import createMain from './createElements.js';
+import createRow from './createElements.js';
+import createTable from './createElements.js';
 
-const {
-createHeader,
-createLogo,
-createMain,
-createButtonsGroup,
-createTable,
-createForm,
-createFooter,
-createRow,
-} = require('./createElements');
-
-
-const renderPhoneBook = (app, title) => {
+export const renderPhoneBook = (app, title) => {
   const header = createHeader();
   const logo = createLogo(title);
   const main = createMain();
@@ -48,14 +43,9 @@ const renderPhoneBook = (app, title) => {
   };
 };
 
-const renderContacts = (elem, data) => {
+export const renderContacts = (elem, data) => {
   const allRow = data.map(createRow);
   elem.append(...allRow);
   return allRow;
-};
-
-module.exports = {
-  renderPhoneBook,
-  renderContacts,
 };
 
