@@ -125,7 +125,6 @@ const createForm = () => {
 const createFooter = title => {
   const footer = document.createElement('footer');
   footer.classList.add('footer');
- 
   footer.textContent = `Все права защищены &copy; ${title}`;
 
   return footer;
@@ -160,13 +159,14 @@ const createRow = ({name: firstName, surname, phone}) => {
   return tr;
 };
 
-export default {
+export {
   createHeader,
   createLogo,
   createMain,
   createButtonsGroup,
   createTable,
+  createRow,
   createForm,
   createFooter,
-  createRow,
 };
+

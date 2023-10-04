@@ -1,7 +1,5 @@
-import createRow from './createElements.js';
-import addContactData from './serviceStorage.js';
-import removeContactData from './serviceStorage.js';
-// import {addContactData, removeContactData} from './serviceStorage.js';
+import {createRow} from './createElements.js';
+import {addContactData, removeContactData} from './serviceStorage.js';
 
 const hoverRow = (allRow, logo) => {
   const text = logo.textContent;
@@ -68,9 +66,11 @@ const formControl = (form, list, closeModal) => {
   });
 };
 
-export default {
+export {
   hoverRow,
   modalControl,
   deleteControl,
   formControl,
 };
+
+

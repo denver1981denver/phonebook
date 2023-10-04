@@ -1,11 +1,13 @@
-import createButtonsGroup from './createElements.js';
-import createFooter from './createElements.js';
-import createForm from './createElements.js';
-import createHeader from './createElements.js';
-import createLogo from './createElements.js';
-import createMain from './createElements.js';
-import createRow from './createElements.js';
-import createTable from './createElements.js';
+import {
+  createHeader,
+  createLogo,
+  createMain,
+  createButtonsGroup,
+  createTable,
+  createRow,
+  createForm,
+  createFooter,
+} from './createElements.js';
 
 export const renderPhoneBook = (app, title) => {
   const header = createHeader();
