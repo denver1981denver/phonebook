@@ -45,7 +45,8 @@ const deleteControl = (btnDel, list) => {
     const target = e.target;
     if (target.closest('.del-icon')) {
       target.closest('.contact').remove();
-      removeContactData(target.dataset.phone);
+
+      removeContactData(target.closest('.contact').dataset.phone);
     }
   });
 };

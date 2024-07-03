@@ -133,6 +133,7 @@ const createFooter = title => {
 const createRow = ({name: firstName, surname, phone}) => {
   const tr = document.createElement('tr');
   tr.classList.add('contact');
+  tr.setAttribute('data-phone', `${phone}`);
 
   const tdDel = document.createElement('td');
   tdDel.classList.add('delete');
