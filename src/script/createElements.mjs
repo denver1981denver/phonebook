@@ -1,3 +1,11 @@
+import image from '../img/icon.svg';
+
+const createImageLogo = () => {
+  const img = document.createElement('img');
+  img.src = image;
+  return img;
+}
+
 const createContainer = () => {
   const container = document.createElement('div');
   container.classList.add('container');
@@ -125,7 +133,7 @@ const createForm = () => {
 const createFooter = title => {
   const footer = document.createElement('footer');
   footer.classList.add('footer');
-  footer.textContent = `Все права защищены &copy; ${title}`;
+  footer.textContent = `Все права защищены © ${title}`;
 
   return footer;
 };
@@ -162,6 +170,7 @@ const createRow = ({name: firstName, surname, phone}) => {
 
 export {
   createHeader,
+  createImageLogo,
   createLogo,
   createMain,
   createButtonsGroup,
